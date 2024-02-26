@@ -1,5 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { TextField, Button, Container, Snackbar, Alert } from '@mui/material';
+import React, { useState, useRef } from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Snackbar,
+  Alert,
+  Grid,
+  CardMedia,
+  Typography,
+  Card,
+} from "@mui/material";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,8 +19,8 @@ const Signup = () => {
   // State and Refs
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [severity, setSeverity] = useState('error');
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("error");
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
@@ -28,83 +38,103 @@ const Signup = () => {
         { name, email, password }
       );
       setMessage(response.data.msg);
-      setSeverity('success');
+      setSeverity("success");
       setOpen(true);
       setTimeout(() => {
         navigate("/login");
-      }, 1000); 
+      }, 1000);
     } catch (error) {
       setMessage(error.response.data.msg);
-      setSeverity('error');
+      setSeverity("error");
       setOpen(true);
     }
   };
 
   return (
-    <div className="h-screen flex">
-      {/* Left side with image */}
-      <div className="w-1/2 h-full overflow-hidden hidden sm:block">
-        <div className="h-full flex justify-center items-center bg-gray-200">
-          <img src={yourImage} alt="workout image" className="h-full w-full object-cover" />
-        </div>
-      </div>
-
-      {/* Right side with signup form */}
-      <div className="w-full sm:w-1/2 h-full flex justify-center items-center">
-        <Container maxWidth="sm">
-          <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded px-8 py-8 h-full border-2 border-gray-300">
-            <h2 className="mb-4 text-2xl font-bold">Signup</h2>
-            <TextField
-              variant="outlined"
-              label="Name"
-              fullWidth
-              required
-              className="mb-4"
-              inputRef={nameRef}
-            />
-            <TextField
-              variant="outlined"
-              label="Email"
-              fullWidth
-              type="email"
-              required
-              className="mb-4"
-              inputRef={emailRef}
-            />
-            <TextField
-              variant="outlined"
-              label="Password"
-              fullWidth
-              type="password"
-              required
-              className="mb-4"
-              inputRef={passwordRef}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              type="submit"
-              className="mb-4"
+    <Container
+      maxWidth={false}
+      className=" bg-sky-200 h-full w-full m-0 flex justify-center items-center"
+    >
+      <Grid className="bg-slate-200 flex h-3/4 w-3/4 justify-center shadow-2xl">
+        <Grid item xs={6} className="flex justify-center items-center">
+          <CardMedia
+            component="img"
+            image={yourImage}
+            alt="trainer"
+            style={{ width: "100%", objectFit: "cover" }}
+          />
+        </Grid>
+        <Grid item xs={6} className="flex justify-center items-center ">
+          <Grid className="flex-row justify-center items-center h-3/4 w-3/4 ">
+            <form onSubmit={handleSubmit}>
+              <Typography
+                variant="h5"
+                component="h1"
+                align="center"
+                gutterBottom
+              >
+                SignUp
+              </Typography>
+              <TextField
+                inputRef={nameRef}
+                variant="outlined"
+                label="Name"
+                fullWidth
+                required
+                margin="normal"
+              />
+              <TextField
+                inputRef={emailRef}
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                required
+                margin="normal"
+              />
+              <TextField
+                inputRef={passwordRef}
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                required
+                margin="normal"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                style={{ margin: "8px 0" }}
+              >
+                SignUp
+              </Button>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  style={{ margin: "8px 0" }}
+                >
+                  Login
+                </Button>
+              </Link>
+            </form>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={() => setOpen(false)}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
             >
-              Signup
-            </Button>
-
-            {/* Link to navigate to login page */}
-            <div className="text-center">
-              Already have an account? <Link to="/login">Login</Link>
-            </div>
-          </form>
-        </Container>
-      </div>
-      
-      {/* Snackbar for displaying error message */}
-      <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-        <Alert severity={severity} variant="outlined">
-          {message}
-        </Alert>
-      </Snackbar>
-    </div>
+              <Alert severity={severity} variant="outlined">
+                {message}
+              </Alert>
+            </Snackbar>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

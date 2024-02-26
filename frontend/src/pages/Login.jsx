@@ -1,5 +1,14 @@
 import React, { useState, useRef } from "react";
-import { TextField, Button, Container, Snackbar, Alert } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Snackbar,
+  Alert,
+  Grid,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import yourImage from "../assets/trainer.svg";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [severity, setSeverity] = useState('error');
+  const [severity, setSeverity] = useState("error");
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -39,73 +48,84 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex">
-      {/* Left side with image (hidden on small devices) */}
-      <div className="w-1/2 h-full overflow-hidden hidden sm:block">
-        <div className="h-full flex justify-center items-center bg-gray-200">
-          <img
-            src={yourImage}
-            alt="Image"
-            className="h-full w-full object-cover"
+    <Container
+      maxWidth={false}
+      className=" bg-sky-200 h-full w-full m-0 flex justify-center items-center"
+    >
+      <Grid className="bg-slate-200 flex h-3/4 w-3/4 justify-center shadow-2xl">
+        <Grid item xs={6} className="flex justify-center items-center">
+          <CardMedia
+            component="img"
+            image={yourImage}
+            alt="trainer"
+            style={{ width: "100%", objectFit: "cover" }}
           />
-        </div>
-      </div>
-      {/* Right side with login form */}
-      <div className="w-full sm:w-1/2 h-full flex justify-center items-center">
-        <Container maxWidth="sm">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col justify-center items-center bg-white shadow-lg rounded px-8 py-8 h-full border-2 border-gray-300"
-          >
-            <h2 className="mb-4 text-2xl font-bold">Login</h2>
-            <TextField
-              variant="outlined"
-              label="Email"
-              fullWidth
-              type="email"
-              required
-              name="email"
-              className="mb-4"
-              inputRef={emailRef}
-            />
-            <TextField
-              variant="outlined"
-              label="Password"
-              fullWidth
-              type="password"
-              required
-              name="password"
-              className="mb-4"
-              inputRef={passwordRef}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              type="submit"
-              className="mb-4"
+        </Grid>
+        <Grid item xs={6} className="flex justify-center items-center ">
+        <Grid
+          className="flex-row justify-center items-center h-3/4 w-3/4 "
+        >
+            <form onSubmit={handleSubmit}>
+              <Typography
+                variant="h5"
+                align="center"
+                gutterBottom
+                className="h5"
+              >
+                Login
+              </Typography>
+              <TextField
+                inputRef={emailRef}
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                required
+                margin="normal"
+              />
+              <TextField
+                inputRef={passwordRef}
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                required
+                margin="normal"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                style={{ margin: "8px 0" }}
+              >
+                Login
+              </Button>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  style={{ margin: "8px 0" }}
+                >
+                  Register
+                </Button>
+              </Link>
+            </form>
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              onClose={() => setOpen(false)}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
             >
-              Login
-            </Button>
-            <div className="text-center">
-              Not an existing user? <Link to="/signup">SignUp</Link>
-            </div>
-          </form>
-        </Container>
-      </div>
-      
-      {/* Snackbar for displaying error message */}
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={() => setOpen(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert severity={severity} variant="outlined">
-          {message}
-        </Alert>
-      </Snackbar>
-    </div>
+              <Alert severity={severity} variant="outlined">
+                {message}
+              </Alert>
+            </Snackbar>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
